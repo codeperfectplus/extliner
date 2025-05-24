@@ -1,12 +1,21 @@
 from setuptools import setup, find_packages
 
 # Read the long description from README.md
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+try:
+    with open("README.md", "r", encoding="utf-8") as fh:
+        long_description = fh.read()
+except FileNotFoundError:
+    long_description = (
+        "A simple command-line tool to count lines in files by extension. "
+        "See the documentation for more details."
+    )
 
 # Read the list of requirements from requirements.txt
-with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = fh.read().splitlines()
+try:
+    with open("requirements.txt", "r", encoding="utf-8") as fh:
+        requirements = fh.read().splitlines()
+except FileNotFoundError:
+    requirements = ["tabulate==0.9.0"]
 
 setup(
     name="extliner",
