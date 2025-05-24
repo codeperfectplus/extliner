@@ -1,7 +1,3 @@
-Here’s a clean and informative `README.md` for your package **`extliner`**:
-
----
-
 ## 📦 extliner
 
 **extliner** is a lightweight Python package that counts lines in files (with and without empty lines) grouped by file extension — perfect for analyzing codebases or text-heavy directories.
