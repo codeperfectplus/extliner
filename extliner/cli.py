@@ -11,6 +11,7 @@ def main():
         help="Directory to count lines in."
     )
     parser.add_argument(
+        "-i",
         "--ignore", nargs="*", default=[],
         help="List of file extensions to ignore (e.g., .log .json)"
     )
