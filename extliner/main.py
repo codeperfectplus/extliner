@@ -45,3 +45,30 @@ class LineCounter:
 
     def to_json(self, data: Dict) -> str:
         return json.dumps(data, indent=2)
+
+    def to_dict(self, data: Dict) -> Dict:
+        return data
+    
+    def to_csv(self, data: Dict) -> str:
+        import csv
+        from io import StringIO
+
+        output = StringIO()
+        writer = csv.writer(output)
+        writer.writerow(["Extension", "With Spaces", "Without Spaces"])
+
+        for ext, counts in data.items():
+            writer.writerow([ext, counts["with_spaces"], counts["without_spaces"]])
+
+        return output.getvalue()
+        
+
+    def to_markdown(self, data: Dict) -> str:
+        output = "| Extension | With Spaces | Without Spaces |\n"
+        output += "|-----------|-------------|----------------|\n"
+
+        for ext, counts in data.items():
+            output += f"| {ext} | {counts['with_spaces']} | {counts['without_spaces']} |\n"
+
+        return output
+    
