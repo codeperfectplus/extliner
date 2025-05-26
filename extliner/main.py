@@ -1,18 +1,15 @@
 import os
 import json
+import mimetypes
+from tqdm import tqdm
 from pathlib import Path
 from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Union
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
-from tqdm import tqdm
-
-
-import mimetypes
-
 def is_text_mimetype(path: str) -> bool:
     mime, _ = mimetypes.guess_type(path)
-    return mime is not None and mime.startswith("text/")
+    return mime is not None and (mime.startswith("text/") or mime == "application/json")
 
 def process_file(filepath: str, encoding: str) -> Optional[Tuple[str, int, int]]:
     ext = (Path(filepath).suffix or "NO_EXT").lower()
@@ -38,7 +35,7 @@ def scan_files(directory: Path, ignore_folders: set, ignore_exts: set) -> List[s
             elif entry.is_file(follow_symlinks=False):
                 ext = entry_path.suffix.lower() or "NO_EXT"
                 if ext not in ignore_exts:
-                    if is_text_mimetype(entry_path):
+                    if is_text_mimetype(entry_path): # type: ignore
                         file_list.append(str(entry_path))
 
     _recursive_scan(directory)

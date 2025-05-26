@@ -47,7 +47,6 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License"
     ],
     project_urls={
         "Documentation": DOCS_URL,
