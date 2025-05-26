@@ -2,8 +2,10 @@ import argparse
 from pathlib import Path
 from tabulate import tabulate
 
+# import sys
+# # apend the parent directory to sys.path to import LineCounter
+# sys.path.append(str(Path(__file__).resolve().parent.parent))
 from extliner.main import LineCounter
-
 
 def main():
     parser = argparse.ArgumentParser(

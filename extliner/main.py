@@ -18,7 +18,10 @@ TEXT_LIKE_MIME_TYPES = {
     "application/yaml",
     "application/x-yaml",
     "application/atom+xml",
-    "application/rss+xml"
+    "application/rss+xml",
+    "application/x-msdos-program",
+    "application/pgp-keys"
+
 }
 
 def is_text_mimetype(path: str) -> bool:
