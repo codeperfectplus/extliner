@@ -19,8 +19,21 @@ TEXT_LIKE_MIME_TYPES = {
     "application/x-yaml",
     "application/atom+xml",
     "application/rss+xml",
-    "application/x-msdos-program",
-    "application/pgp-keys"
+    "application/pgp-keys",
+    "application/ecmascript",           # Like JavaScript
+    "application/sql",                  # SQL code
+    "application/x-sh",                 # Shell scripts
+    "application/x-python",             # Python scripts
+    "application/x-perl",               # Perl scripts
+    "application/x-php",                # PHP code
+    "application/x-latex",              # LaTeX documents
+    "application/x-troff",              # manpage source
+    "application/x-markdown",           # Markdown files
+    "application/ld+json",              # JSON-LD
+    "application/vnd.api+json",         # API JSON (used in REST)
+    "application/x-ndjson",             # Newline-delimited JSON
+    "application/x-httpd-php",          # PHP source
+    "application/x-msdos-program"
 
 }
 
