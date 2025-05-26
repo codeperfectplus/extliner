@@ -7,9 +7,27 @@ from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Union
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
+
+TEXT_LIKE_MIME_TYPES = {
+    "application/json",
+    "application/javascript",
+    "application/xml",
+    "application/xhtml+xml",
+    "application/x-www-form-urlencoded",
+    "application/csv",
+    "application/yaml",
+    "application/x-yaml",
+    "application/atom+xml",
+    "application/rss+xml"
+}
+
 def is_text_mimetype(path: str) -> bool:
     mime, _ = mimetypes.guess_type(path)
-    return mime is not None and (mime.startswith("text/") or mime == "application/json")
+    return (
+        mime is not None and (
+            mime.startswith("text/") or mime in TEXT_LIKE_MIME_TYPES
+        )
+    )
 
 def process_file(filepath: str, encoding: str) -> Optional[Tuple[str, int, int]]:
     ext = (Path(filepath).suffix or "NO_EXT").lower()
