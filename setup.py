@@ -1,62 +1,67 @@
 from setuptools import setup, find_packages
+from fetch_and_bump_version import get_incremented_version
+import os
 
-# Read the long description from README.md
-try:
-    with open("README.md", "r", encoding="utf-8") as fh:
-        long_description = fh.read()
-except FileNotFoundError:
-    long_description = (
-        "A simple command-line tool to count lines in files by extension. "
-        "See the documentation for more details."
-    )
+# ---------------------- Package Metadata ---------------------- #
 
-# Read the list of requirements from requirements.txt
-try:
-    with open("requirements.txt", "r", encoding="utf-8") as fh:
-        requirements = fh.read().splitlines()
-except FileNotFoundError:
-    requirements = ["tabulate==0.9.0"]
+PACKAGE_NAME = "extliner"
+AUTHOR = "Deepak Raj"
+AUTHOR_EMAIL = "deepak008@live.com"
+DESCRIPTION = "A simple command-line tool to count lines in files by extension."
+PYTHON_REQUIRES = ">=3.6"
+GITHUB_USER = "codeperfectplus"
+GITHUB_URL = f"https://github.com/{GITHUB_USER}/{PACKAGE_NAME}"
+DOCS_URL = f"https://{PACKAGE_NAME}.readthedocs.io/en/latest/"
+
+# ---------------------- Utility Functions ---------------------- #
+
+def load_file_content(file_path):
+    """Read and return the contents of a file if it exists."""
+    if os.path.exists(file_path):
+        with open(file_path, encoding="utf-8") as f:
+            return f.read().strip()
+    return ""
+
+def load_requirements(file_path):
+    """Parse requirements from a file."""
+    content = load_file_content(file_path)
+    return content.splitlines() if content else []
+
+# ---------------------- Setup Execution ---------------------- #
 
 setup(
-    name="extliner",
-    version="0.0.1",
-    author="Deepak Raj",
-    author_email="deepak008@live.com",
-    description=(
-        "A simple command-line tool to count lines in files by extension, "
-    ),
-    long_description=long_description,
+    name=PACKAGE_NAME,
+    version=get_incremented_version(PACKAGE_NAME),
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
+    description=DESCRIPTION,
+    long_description=load_file_content("README.md"),
     long_description_content_type="text/markdown",
-    url="https://github.com/codeperfectplus/extliner",
+    url=GITHUB_URL,
     packages=find_packages(),
     include_package_data=True,
-    install_requires=requirements,
-    python_requires=">=3.6",
+    install_requires=load_requirements("requirements.txt"),
+    python_requires=PYTHON_REQUIRES,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
-        "Intended Audience :: Developers"
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License"
     ],
     project_urls={
-        "Documentation": "https://extliner.readthedocs.io/en/latest/",
-        "Source": "https://github.com/codeperfectplus/extliner",
-        "Tracker": "https://github.com/codeperfectplus/extliner/issues"
+        "Documentation": DOCS_URL,
+        "Source": GITHUB_URL,
+        "Tracker": f"{GITHUB_URL}/issues",
     },
     entry_points={
         "console_scripts": [
-            "extliner=extliner.cli:main",  # Update path if needed
+            f"{PACKAGE_NAME}={PACKAGE_NAME}.cli:main",
         ],
     },
     keywords=[
-        "line count",
-        "file analysis",
-        "command line tool",
-        "file extension",
-        "python",
-        "CLI",
-        "file processing",
-        
+        "line count", "file analysis", "command line tool",
+        "file extension", "python", "CLI", "file processing",
     ],
     license="MIT",
 )
