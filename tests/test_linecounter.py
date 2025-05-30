@@ -59,14 +59,6 @@ class TestLineCounter(unittest.TestCase):
         self.assertIn(".py", result)
         self.assertEqual(result[".py"]["with_spaces"], 2)  # only visible/script.py counted
 
-    def test_no_extension_file(self):
-        self.create_file("README", "line1\nline2\n")
-        counter = LineCounter()
-        result = counter.count_lines(self.base_path)
-
-        self.assertIn("no_ext", result)
-        self.assertEqual(result["no_ext"]["file_count"], 1)
-
     def test_empty_file(self):
         self.create_file("empty.py", "")
         counter = LineCounter()

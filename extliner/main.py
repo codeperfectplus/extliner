@@ -122,14 +122,24 @@ class LineCounter:
         return self._build_result()
 
     def _build_result(self) -> Dict[str, Dict[str, int]]:
-        return {
+        # Build the result dictionary for each extension
+        result = {
             ext: {
-                "with_spaces": self.with_spaces[ext],
-                "without_spaces": self.without_spaces[ext],
-                "file_count": self.file_count[ext],
+            "with_spaces": self.with_spaces[ext],
+            "without_spaces": self.without_spaces[ext],
+            "file_count": self.file_count[ext],
             }
             for ext in sorted(set(self.with_spaces) | set(self.without_spaces))
+            if self.with_spaces[ext] > 0 or self.without_spaces[ext] > 0
         }
+
+        # Add the 'Total' entry at the end
+        result["Total"] = {
+            "with_spaces": sum(self.with_spaces.values()),
+            "without_spaces": sum(self.without_spaces.values()),
+            "file_count": sum(self.file_count.values()),
+        }
+        return result
 
     @staticmethod
     def to_json(data: Dict) -> str:
