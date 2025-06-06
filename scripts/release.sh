@@ -4,7 +4,6 @@ check_command() {
     if ! command -v "$1" &> /dev/null; then
         echo "$1 is not installed. Installing..."
         pip install "$1"
-        # Optional: exit after install to refresh shell path
         exit 1
     fi
 }
@@ -24,9 +23,8 @@ check_file() {
 }
 
 # ✅ Check required tools
-# check_command flake8
-# check_command twine
-# check_command build
+check_command flit
+check_command flake8
 
 # ✅ Check required project files
 check_file pyproject.toml
@@ -37,17 +35,11 @@ check_file LICENSE
 rm -rf dist build *.egg-info
 find . -name "*.pyc" -exec rm -f {} \;
 
-# ✅ Run code checks
+# ✅ Run code style checks
 flake8 .
 
-# ✅ Build package using PEP 517 (pyproject.toml)
-python -m build
+# ✅ Build and upload using flit
+flit publish --verbose
 
-# ✅ Check build output
-check_directory dist
-
-# ✅ Upload to PyPI
-python -m twine upload dist/* --verbose
-
-# ✅ Cleanup (optional — or move to temporary folder if needed)
+# ✅ Cleanup (optional)
 rm -rf dist build *.egg-info
