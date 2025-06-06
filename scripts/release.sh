@@ -1,36 +1,53 @@
 #!/bin/bash
+
 check_command() {
-    if [ ! -x "$(command -v $1)" ]; then
-        echo "$1 is not installed"
-        pip install $1
+    if ! command -v "$1" &> /dev/null; then
+        echo "$1 is not installed. Installing..."
+        pip install "$1"
+        # Optional: exit after install to refresh shell path
         exit 1
     fi
 }
 
 check_directory() {
     if [ ! -d "$1" ]; then
-        echo "$1 is not found"
+        echo "Directory '$1' not found."
         exit 1
     fi
 }
 
 check_file() {
     if [ ! -f "$1" ]; then
-        echo "$1 is not found"
+        echo "File '$1' not found."
         exit 1
     fi
 }
 
-# check if the git is installed
-check_command git
-check_command flake8
-check_command twine
-check_file setup.py
-python setup.py sdist bdist_wheel
+# ✅ Check required tools
+# check_command flake8
+# check_command twine
+# check_command build
+
+# ✅ Check required project files
+check_file pyproject.toml
+check_file README.md
+check_file LICENSE
+
+# ✅ Clean previous builds
+rm -rf dist build *.egg-info
+find . -name "*.pyc" -exec rm -f {} \;
+
+# ✅ Run code checks
+flake8 .
+
+# ✅ Build package using PEP 517 (pyproject.toml)
+python -m build
+
+# ✅ Check build output
 check_directory dist
+
+# ✅ Upload to PyPI
 python -m twine upload dist/* --verbose
 
-rm -rf dist
-rm -rf build
-rm -rf *.egg-info
-find . -name "*.pyc" -exec rm -rf {}\;
+# ✅ Cleanup (optional — or move to temporary folder if needed)
+rm -rf dist build *.egg-info
