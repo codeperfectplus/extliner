@@ -39,7 +39,7 @@ find . -name "*.pyc" -exec rm -f {} \;
 flake8 .
 
 # ✅ Build and upload using flit
-flit publish --verbose
+flit publish
 
 # ✅ Cleanup (optional)
 rm -rf dist build *.egg-info
