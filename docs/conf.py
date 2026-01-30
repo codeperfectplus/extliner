@@ -1,7 +1,7 @@
 from datetime import datetime
 
 project = 'extliner'
-release = '0.0.9'
+release = '0.0.10'
 year = datetime.now().year
 copyright = f"{year} CodePerfectPlus"
 

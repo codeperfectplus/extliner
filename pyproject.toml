@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "extliner"
-version = "0.0.9"
+version = "0.0.10"
 description = "A simple command-line tool to count lines in files by extension."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -13,7 +13,8 @@ authors = [
 ]
 requires-python = ">=3.6"
 dependencies = [
-    # Add your required packages here or load dynamically
+    "tabulate>=0.9.0",
+    "tqdm>=4.67.1"
 ]
 
 keywords = [
