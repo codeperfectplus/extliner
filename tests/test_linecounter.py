@@ -57,7 +57,9 @@ class TestLineCounter(unittest.TestCase):
         result = counter.count_lines(self.base_path)
 
         self.assertIn(".py", result)
-        self.assertEqual(result[".py"]["with_spaces"], 2)  # only visible/script.py counted
+        self.assertEqual(
+            result[".py"]["with_spaces"], 2
+        )  # only visible/script.py counted
 
     def test_empty_file(self):
         self.create_file("empty.py", "")
@@ -106,7 +108,9 @@ class TestLineCounter(unittest.TestCase):
         data = counter.count_lines(self.base_path)
         csv_str = counter.to_csv(data)
 
-        self.assertIn("Extension,With Spaces,Without Spaces,File Count", csv_str)
+        self.assertIn(
+            "Extension,With Spaces,Without Spaces,File Count", csv_str
+        )
         self.assertIn(".py", csv_str)
 
 

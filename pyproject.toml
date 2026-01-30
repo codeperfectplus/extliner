@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "extliner"
-version = "0.0.8"
+version = "0.0.9"
 description = "A simple command-line tool to count lines in files by extension."
 readme = "README.md"
 license = { file = "LICENSE" }

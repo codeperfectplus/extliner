@@ -1,7 +1,7 @@
 from datetime import datetime
 
 project = 'extliner'
-release = '0.0.1'
+release = '0.0.9'
 year = datetime.now().year
 copyright = f"{year} CodePerfectPlus"
 
@@ -14,12 +14,12 @@ html_static_path = ['_static']
 
 # Extensions for Sphinx
 extensions = [
-    'sphinx.ext.autodoc',           # Generate docs from docstrings
-    'sphinx.ext.todo',              # Support TODO directives
-    'sphinx.ext.coverage',          # Documentation coverage
-    'sphinx.ext.viewcode',          # Link to source code in docs
-    'sphinx.ext.autosectionlabel', # Reference sections automatically
-    'sphinx.ext.githubpages',       # GitHub Pages support
+    'sphinx.ext.autodoc',    # Generate docs from docstrings
+    'sphinx.ext.todo',       # Support TODO directives
+    'sphinx.ext.coverage',   # Documentation coverage
+    'sphinx.ext.viewcode',   # Link to source code in docs
+    'sphinx.ext.autosectionlabel',  # Reference sections automatically
+    'sphinx.ext.githubpages',  # GitHub Pages support
 ]
 
 # Avoid ambiguous section labels
@@ -35,7 +35,8 @@ releases_github_path = "codeperfectplus/extliner"
 releases_unstable_prehistory = True
 
 # HTML output options
-html_theme = 'pydata_sphinx_theme'  # Nice modern theme, alternatives: 'sphinx_rtd_theme'
+html_theme = 'pydata_sphinx_theme'  # Nice modern theme
+# alternatives: 'sphinx_rtd_theme'
 html_theme_options = {
     "show_prev_next": True,
     "navigation_depth": 4,

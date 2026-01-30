@@ -37,6 +37,7 @@ TEXT_LIKE_MIME_TYPES = {
 
 }
 
+
 def is_text_mimetype(path: str) -> bool:
     mime, _ = mimetypes.guess_type(path)
     return (
@@ -45,6 +46,7 @@ def is_text_mimetype(path: str) -> bool:
         )
     )
 
+
 def process_file(filepath: str, encoding: str) -> Optional[Tuple[str, int, int]]:
     ext = (Path(filepath).suffix or "NO_EXT").lower()
 
@@ -52,10 +54,13 @@ def process_file(filepath: str, encoding: str) -> Optional[Tuple[str, int, int]]
         with open(filepath, "r", encoding=encoding, errors="ignore") as f:
             with_spaces = sum(1 for _ in f)
             f.seek(0)
-            without_spaces = sum(1 for line in f if line.strip())
+            without_spaces = sum(
+                1 for line in f if line.strip()
+            )
         return ext, with_spaces, without_spaces
     except Exception:
         return None
+
 
 def scan_files(directory: Path, ignore_folders: set, ignore_exts: set) -> List[str]:
     file_list = []
@@ -69,7 +74,8 @@ def scan_files(directory: Path, ignore_folders: set, ignore_exts: set) -> List[s
             elif entry.is_file(follow_symlinks=False):
                 ext = entry_path.suffix.lower() or "NO_EXT"
                 if ext not in ignore_exts:
-                    if is_text_mimetype(entry_path): # type: ignore
+                    # type: ignore for mypy compatibility
+                    if is_text_mimetype(entry_path):  # type: ignore
                         file_list.append(str(entry_path))
 
     _recursive_scan(directory)
@@ -99,7 +105,11 @@ class LineCounter:
         if not directory.is_dir():
             raise ValueError(f"{directory} is not a valid directory")
 
-        filepaths = scan_files(directory, self.ignore_folder, self.ignore_extensions)
+        filepaths = scan_files(
+            directory,
+            self.ignore_folder,
+            self.ignore_extensions
+        )
 
         with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
             futures = [
@@ -109,7 +119,11 @@ class LineCounter:
             iterator = as_completed(futures)
 
             if self.use_progress:
-                iterator = tqdm(iterator, total=len(futures), desc="Counting lines")
+                iterator = tqdm(
+                    iterator,
+                    total=len(futures),
+                    desc="Counting lines"
+                )
 
             for future in iterator:
                 result = future.result()
@@ -125,9 +139,9 @@ class LineCounter:
         # Build the result dictionary for each extension
         result = {
             ext: {
-            "with_spaces": self.with_spaces[ext],
-            "without_spaces": self.without_spaces[ext],
-            "file_count": self.file_count[ext],
+                "with_spaces": self.with_spaces[ext],
+                "without_spaces": self.without_spaces[ext],
+                "file_count": self.file_count[ext],
             }
             for ext in sorted(set(self.with_spaces) | set(self.without_spaces))
             if self.with_spaces[ext] > 0 or self.without_spaces[ext] > 0
@@ -152,17 +166,26 @@ class LineCounter:
 
         output = StringIO()
         writer = csv.writer(output)
-        writer.writerow(["Extension", "With Spaces", "Without Spaces", "File Count"])
+        writer.writerow([
+            "Extension", "With Spaces", "Without Spaces", "File Count"
+        ])
 
         for ext, counts in data.items():
-            writer.writerow([ext, counts["with_spaces"], counts["without_spaces"], counts["file_count"]])
+            writer.writerow([
+                ext, counts["with_spaces"], counts["without_spaces"], counts["file_count"]
+            ])
 
         return output.getvalue()
 
     @staticmethod
     def to_markdown(data: Dict) -> str:
-        output = "| Extension | With Spaces | Without Spaces | File Count |\n"
-        output += "|-----------|-------------|----------------|------------|\n"
+        output = (
+            "| Extension | With Spaces | Without Spaces | File Count |\n"
+            "|-----------|-------------|----------------|------------|\n"
+        )
         for ext, counts in data.items():
-            output += f"| {ext} | {counts['with_spaces']} | {counts['without_spaces']} | {counts['file_count']} |\n"
+            output += (
+                f"| {ext} | {counts['with_spaces']} | "
+                f"{counts['without_spaces']} | {counts['file_count']} |\n"
+            )
         return output

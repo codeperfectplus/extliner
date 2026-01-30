@@ -5,15 +5,22 @@ from tabulate import tabulate
 # import sys
 # # apend the parent directory to sys.path to import LineCounter
 # sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from extliner.main import LineCounter
 
 def main():
     parser = argparse.ArgumentParser(
-        description="📦 Count lines in files grouped by extension (with/without empty lines)."
+        description=(
+            "📦 Count lines in files grouped by extension "
+            "(with/without empty lines)."
+        )
     )
     parser.add_argument(
         "-d", "--directory", type=Path, required=True,
-        help="Input directory to count lines in (default: current directory)"
+        help=(
+            "Input directory to count lines in "
+            "(default: current directory)"
+        )
     )
     parser.add_argument(
         "-i", "--ignore", nargs="*", default=[],
@@ -63,14 +70,21 @@ def main():
         for ext, counts in result.items():
             with_spaces = counts["with_spaces"]
             without_spaces = counts["without_spaces"]
-            percent = (with_spaces / total_with_spaces * 100) if total_with_spaces else 0
-            table.append([ext, with_spaces, without_spaces, counts["file_count"], f"{percent:.2f}%"])
+            percent = (
+                with_spaces / total_with_spaces * 100
+            ) if total_with_spaces else 0
+            table.append([
+                ext, with_spaces, without_spaces, counts["file_count"], f"{percent:.2f}%"
+            ])
 
         print(tabulate(
             table,
-            headers=["Extension", "With Spaces", "Without Spaces", "Files", "% of Total"],
+            headers=[
+                "Extension", "With Spaces", "Without Spaces", "Files", "% of Total"
+            ],
             tablefmt="grid"
         ))
+
 
 
 if __name__ == "__main__":
